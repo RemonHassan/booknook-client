@@ -93,7 +93,6 @@ export default function BannerSwiper() {
 
   return (
     <div className="relative w-full max-w-md">
-      {/* ACCENT SHADOW */}
       <div className="absolute inset-0 bg-emerald-600/20 rounded-2xl transform rotate-3 scale-95 blur-sm" />
 
       <Swiper

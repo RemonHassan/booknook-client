@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BookOpen, ArrowRight, Sparkles } from "lucide-react";
 import BookCard, { Book } from "../common/BookCard";
 import BannerSwiper from "../BannerSwiper";
+import TopRatedBooks from "../TopRatedBooks";
 
 export default async function Banner() {
   let books: Book[] = [];
@@ -139,6 +140,9 @@ export default async function Banner() {
             </div>
           )}
         </div>
+      </section>
+      <section>
+        <TopRatedBooks></TopRatedBooks>
       </section>
     </div>
   );
