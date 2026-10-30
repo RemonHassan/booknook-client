@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const categories = [
   "Classic",
@@ -45,9 +46,11 @@ export default function AddBookPage() {
 
   const update = (field: keyof typeof form, value: string) =>
     setForm((current) => ({ ...current, [field]: value }));
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     // Calling the API
     const res = await fetch(`http://localhost:4000/add-book`, {
       method: "POST",
@@ -58,7 +61,13 @@ export default function AddBookPage() {
     });
     const data = await res.json();
 
-    toast.success("A New Book is added");
+    if (res.ok) {
+      toast.success("A New Book is added");
+      router.push("/books"); // 3. Redirect to the books page
+    } else {
+      toast.error("Failed to add the book. Please try again.");
+    }
+
     // const payload = {
     //   ...form,
     //   yearOfPublishing: Number(form.yearOfPublishing),
