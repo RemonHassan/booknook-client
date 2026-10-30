@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "react-toastify";
 
 const categories = [
   "Classic",
@@ -47,17 +48,26 @@ export default function AddBookPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Calling the API
+    const res = await fetch(`http://localhost:4000/add-book`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json();
 
-    const payload = {
-      ...form,
-      yearOfPublishing: Number(form.yearOfPublishing),
-      totalPages: Number(form.totalPages),
-      rating: Number(form.rating),
-    };
+    toast.success("A New Book is added");
+    // const payload = {
+    //   ...form,
+    //   yearOfPublishing: Number(form.yearOfPublishing),
+    //   totalPages: Number(form.totalPages),
+    //   rating: Number(form.rating),
+    // };
 
-    console.log("Submitted Book Data:", payload);
+    // console.log("Submitted Book Data:", payload);
   };
-  console.log(form);
   return (
     <main className="min-h-screen bg-stone-950 px-6 py-12 text-stone-100">
       <div className="mx-auto max-w-2xl">
