@@ -10,7 +10,6 @@ import {
   Hash,
   User,
   FileText,
-  Trash2,
 } from "lucide-react";
 import { Book } from "@/components/common/BookCard";
 import BorrowButton from "@/components/BorrowButton";

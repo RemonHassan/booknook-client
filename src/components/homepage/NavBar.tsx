@@ -11,6 +11,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,6 +24,9 @@ export default function NavBar() {
     { name: "My Books", href: "/my-books", icon: Library },
     { name: "My Borrows", href: "/my-borrows", icon: Bookmark },
   ];
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user);
 
   return (
     <nav className="sticky top-0 z-50 bg-stone-900/95 backdrop-blur-md border-b border-stone-800/80 text-stone-100 transition-all duration-200">
@@ -68,7 +72,7 @@ export default function NavBar() {
               Log in
             </Link>
             <Link
-              href="/register"
+              href="/signup"
               className="px-4.5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg shadow-md shadow-emerald-950/60 transition-all duration-150 hover:scale-[1.02] active:scale-[0.98]"
             >
               Register

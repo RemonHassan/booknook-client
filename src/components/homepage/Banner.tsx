@@ -21,7 +21,18 @@ export default async function Banner() {
   }
 
   // New Arrivals (Latest 6 books from database)
-  const newArrivals = [...books].slice(-6).reverse();
+  let newArrivals: Book[] = [];
+  try {
+    const araivel = await fetch(`http://localhost:4000/books`, {
+      cache: "no-store",
+    });
+
+    if (araivel.ok) {
+      newArrivals = await araivel.json();
+    }
+  } catch (error) {
+    console.error("Failed to fetch books:", error);
+  }
 
   return (
     <div className="space-y-0">
@@ -118,20 +129,12 @@ export default async function Banner() {
                 Explore the latest books added to our library collection.
               </p>
             </div>
-
-            <Link
-              href="/books"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
-            >
-              <span>View All Books</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
 
           {/* NEW ARRIVALS GRID (CARDS) */}
           {newArrivals.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {newArrivals.map((book, index) => (
+              {newArrivals.slice(0, 6).map((book, index) => (
                 <BookCard key={index} book={book} />
               ))}
             </div>
@@ -140,6 +143,13 @@ export default async function Banner() {
               No new arrivals available yet.
             </div>
           )}
+          <Link
+            href="/books"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+          >
+            <span>View All Books</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
       <section>
