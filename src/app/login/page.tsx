@@ -60,6 +60,12 @@ export default function LogInPage() {
       setLoading(false);
     }
   };
+  // GOOGLE signIN
+  const handleGoogleSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden">
@@ -107,6 +113,7 @@ export default function LogInPage() {
                 {/* GOOGLE OAUTH BUTTON */}
                 <Field>
                   <Button
+                    onClick={handleGoogleSignIn}
                     variant="outline"
                     type="button"
                     className="w-full flex items-center justify-center gap-2 rounded-xl border-stone-800 bg-stone-950 py-2.5 text-xs font-semibold text-stone-200 hover:bg-stone-800 hover:text-white hover:border-stone-700 transition-all"
