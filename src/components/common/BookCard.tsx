@@ -79,7 +79,7 @@ export default function BookCard({ book }: BookCardProps) {
       {/* ACTION BUTTON */}
       <div className="mt-6">
         <Link
-          href={bookId ? `/books/${bookId}` : "#"}
+          href={`/books/${bookId}`}
           className="flex w-full items-center justify-center gap-2 rounded-xl border border-stone-800 bg-stone-950 py-2.5 text-xs font-semibold text-stone-200 transition-all hover:border-emerald-700/60 hover:bg-emerald-600 hover:text-white active:scale-[0.98]"
         >
           View Details
