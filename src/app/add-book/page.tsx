@@ -62,7 +62,7 @@ export default function AddBookPage() {
     const data = await res.json();
 
     if (res.ok) {
-      toast.success("A New Book is added");
+      toast.success(`A book was is added`);
       router.push("/books"); // 3. Redirect to the books page
     } else {
       toast.error("Failed to add the book. Please try again.");

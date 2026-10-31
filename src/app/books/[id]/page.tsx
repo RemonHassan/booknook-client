@@ -16,6 +16,7 @@ import { Book } from "@/components/common/BookCard";
 import BorrowButton from "@/components/BorrowButton";
 import Image from "next/image";
 import EditBookDialog from "@/components/EditBookDialog";
+import DeleteBookDailog from "@/components/DeleteBookDailog";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -58,17 +59,13 @@ const BookdetailsPage = async ({
 
           {/* EDIT & DELETE ACTION BUTTONS */}
           <div className="flex items-center gap-3">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-stone-300 hover:text-white bg-stone-900 hover:bg-stone-800 border border-stone-800 hover:border-emerald-800/60 transition-all">
+            <p>
               <EditBookDialog book={book}></EditBookDialog>
-            </div>
+            </p>
 
-            <Link
-              href={`/delete-book/${id}`}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:text-rose-300 bg-stone-900 hover:bg-rose-950/30 border border-stone-800 hover:border-rose-900/50 transition-all"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>Delete Book</span>
-            </Link>
+            <p>
+              <DeleteBookDailog id={id}></DeleteBookDailog>
+            </p>
           </div>
         </div>
 
