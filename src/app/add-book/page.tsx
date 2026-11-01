@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const categories = [
   "Classic",
@@ -43,13 +44,20 @@ const initialForm = {
 
 export default function AddBookPage() {
   const [form, setForm] = useState(initialForm);
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
   const update = (field: keyof typeof form, value: string) =>
     setForm((current) => ({ ...current, [field]: value }));
-  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const userInfoAndBookData = {
+      userName: user?.name,
+      email: user?.email,
+      UserImage: user?.image,
+      ...form,
+    };
 
     // Calling the API
     const res = await fetch(`http://localhost:4000/add-book`, {
@@ -57,25 +65,16 @@ export default function AddBookPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(form),
+      body: JSON.stringify(userInfoAndBookData),
     });
     const data = await res.json();
 
     if (res.ok) {
       toast.success(`A book was is added`);
-      router.push("/books"); // 3. Redirect to the books page
+      redirect("/books");
     } else {
       toast.error("Failed to add the book. Please try again.");
     }
-
-    // const payload = {
-    //   ...form,
-    //   yearOfPublishing: Number(form.yearOfPublishing),
-    //   totalPages: Number(form.totalPages),
-    //   rating: Number(form.rating),
-    // };
-
-    // console.log("Submitted Book Data:", payload);
   };
   return (
     <main className="min-h-screen bg-stone-950 px-6 py-12 text-stone-100">

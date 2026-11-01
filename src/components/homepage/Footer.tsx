@@ -15,7 +15,7 @@ export default function Footer() {
               <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-950/50 group-hover:bg-emerald-500 transition-colors">
                 <BookOpen className="w-5 h-5" />
               </div>
-              <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-stone-100 via-amber-100 to-emerald-400 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold tracking-tight bg-linear-to-r from-stone-100 via-amber-100 to-emerald-400 bg-clip-text text-transparent">
                 BookNook
               </span>
             </Link>

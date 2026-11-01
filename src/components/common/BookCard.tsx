@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star, BookOpen, Calendar, Building2 } from "lucide-react";
+import { Star, BookOpen, Calendar, Building2, User } from "lucide-react";
 
 export interface Book {
   _id?: string;
@@ -8,6 +8,9 @@ export interface Book {
   bookName: string;
   author: string;
   image: string;
+  userName?: string;
+  email?: string;
+  UserImage?: string;
   review?: string;
   totalPages: number;
   rating: number;
@@ -59,18 +62,40 @@ export default function BookCard({ book }: BookCardProps) {
           </p>
 
           {/* METADATA GRID */}
-          <div className="mt-4 grid grid-cols-2 gap-2 border-t border-stone-800/80 pt-3 text-xs text-stone-400">
-            <div className="flex items-center gap-1.5 truncate">
+          <div className="mt-4 grid grid-cols-2 gap-2.5 border-t border-stone-800/80 pt-3 text-xs text-stone-400">
+            {/* PUBLISHER */}
+            <div className="flex items-center gap-1.5 rounded-lg border border-stone-800/50 bg-stone-900/60 px-2.5 py-1.5 min-w-0">
               <Building2 className="h-3.5 w-3.5 shrink-0 text-stone-500" />
-              <span className="truncate">{book.publisher}</span>
+              <span className="truncate text-stone-300 font-medium">
+                {book.publisher}
+              </span>
             </div>
-            <div className="flex items-center gap-1.5">
+
+            {/* YEAR OF PUBLISHING */}
+            <div className="flex items-center gap-1.5 rounded-lg border border-stone-800/50 bg-stone-900/60 px-2.5 py-1.5 min-w-0">
               <Calendar className="h-3.5 w-3.5 shrink-0 text-stone-500" />
-              <span>{book.yearOfPublishing}</span>
+              <span className="truncate text-stone-300 font-medium">
+                {book.yearOfPublishing}
+              </span>
             </div>
-            <div className="flex items-center gap-1.5 col-span-2">
-              <BookOpen className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
-              <span>{book.totalPages} Pages</span>
+
+            {/* TOTAL PAGES */}
+            <div className="flex items-center gap-1.5 rounded-lg border border-stone-800/50 bg-stone-900/60 px-2.5 py-1.5 min-w-0">
+              <BookOpen className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+              <span className="truncate text-stone-200 font-medium">
+                {book.totalPages} Pages
+              </span>
+            </div>
+
+            {/* ADDED BY */}
+            <div className="flex items-center gap-1.5 rounded-lg border border-stone-800/50 bg-stone-900/60 px-2.5 py-1.5 min-w-0">
+              <User className="h-3.5 w-3.5 shrink-0 text-amber-400/90" />
+              <span className="text-stone-400 truncate">
+                Added by{" "}
+                <strong className="font-semibold text-stone-200">
+                  {book.userName || "Admin"}
+                </strong>
+              </span>
             </div>
           </div>
         </div>
