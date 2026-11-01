@@ -8,6 +8,7 @@ export interface Book {
   bookName: string;
   author: string;
   image: string;
+  addedDate?: string;
   userName?: string;
   email?: string;
   UserImage?: string;

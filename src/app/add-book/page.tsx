@@ -56,6 +56,7 @@ export default function AddBookPage() {
       userName: user?.name,
       email: user?.email,
       UserImage: user?.image,
+      addedDate: new Date(),
       ...form,
     };
 

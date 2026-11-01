@@ -23,12 +23,20 @@ export default async function Banner() {
   // New Arrivals (Latest 6 books from database)
   let newArrivals: Book[] = [];
   try {
-    const araivel = await fetch(`http://localhost:4000/books`, {
+    const res = await fetch(`http://localhost:4000/books`, {
       cache: "no-store",
     });
 
-    if (araivel.ok) {
-      newArrivals = await araivel.json();
+    if (res.ok) {
+      const allBooks: Book[] = await res.json();
+
+      newArrivals = allBooks
+        .sort((a, b) => {
+          const dateA = a.addedDate ? new Date(a.addedDate).getTime() : 0;
+          const dateB = b.addedDate ? new Date(b.addedDate).getTime() : 0;
+          return dateB - dateA;
+        })
+        .slice(0, 6);
     }
   } catch (error) {
     console.error("Failed to fetch books:", error);
