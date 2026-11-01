@@ -11,6 +11,7 @@ import {
   Image as ImageIcon,
   Mail,
   Lock,
+  AlertCircle,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -34,11 +35,25 @@ import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const router = useRouter();
+
+  const validatePassword = (password: string): string | null => {
+    if (password.length < 6) {
+      return "Password must be at least 6 characters long.";
+    }
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one uppercase letter (A-Z).";
+    }
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least one lowercase letter (a-z).";
+    }
+    return null;
+  };
 
   const handleEmailSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
+    setPasswordError(null);
 
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries()) as {
@@ -48,6 +63,16 @@ export default function SignUpPage() {
       password: string;
     };
 
+    // 🔒 VALIDATE PASSWORD BEFORE PROCEEDING
+    const validationError = validatePassword(user.password);
+    if (validationError) {
+      setPasswordError(validationError);
+      toast.error(validationError);
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const { data, error } = await authClient.signUp.email({
         ...user,
@@ -55,7 +80,7 @@ export default function SignUpPage() {
 
       if (data) {
         toast.success("Account created successfully!");
-        router.push("/");
+        router.push("/login");
         router.refresh();
       }
 
@@ -70,9 +95,10 @@ export default function SignUpPage() {
       setLoading(false);
     }
   };
-  // GOOGLE signIN
+
+  // GOOGLE SIGN-IN
   const handleGoogleSignIn = async () => {
-    const data = await authClient.signIn.social({
+    await authClient.signIn.social({
       provider: "google",
     });
   };
@@ -126,7 +152,7 @@ export default function SignUpPage() {
                     onClick={handleGoogleSignIn}
                     variant="outline"
                     type="button"
-                    className="w-full flex items-center justify-center gap-2 rounded-xl border-stone-800 bg-stone-950 py-2.5 text-xs font-semibold text-stone-200 hover:bg-stone-800 hover:text-white hover:border-stone-700 transition-all"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl border-stone-800 bg-stone-950 py-2.5 text-xs font-semibold text-stone-200 hover:bg-stone-800 hover:text-white hover:border-stone-700 transition-all cursor-pointer"
                   >
                     <svg className="w-4 h-4" viewBox="0 0 24 24">
                       <path
@@ -199,7 +225,7 @@ export default function SignUpPage() {
                   />
                 </Field>
 
-                {/* PASSWORD FIELD */}
+                {/* PASSWORD FIELD WITH VALIDATION ERROR */}
                 <Field className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <FieldLabel
@@ -221,9 +247,20 @@ export default function SignUpPage() {
                     name="password"
                     type="password"
                     required
+                    onChange={() => setPasswordError(null)}
                     placeholder="••••••••"
-                    className="rounded-xl border-stone-800 bg-stone-950 text-stone-100 placeholder:text-stone-600 focus-visible:ring-emerald-500 text-sm"
+                    className={`rounded-xl bg-stone-950 text-stone-100 placeholder:text-stone-600 focus-visible:ring-emerald-500 text-sm ${
+                      passwordError
+                        ? "border-rose-500 focus-visible:ring-rose-500"
+                        : "border-stone-800"
+                    }`}
                   />
+                  {passwordError && (
+                    <div className="flex items-center gap-1.5 text-xs text-rose-400 pt-1">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{passwordError}</span>
+                    </div>
+                  )}
                 </Field>
 
                 {/* SUBMIT BUTTON */}
@@ -231,7 +268,7 @@ export default function SignUpPage() {
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-950/80 hover:bg-emerald-500 active:scale-[0.99] transition-all"
+                    className="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-950/80 hover:bg-emerald-500 active:scale-[0.99] transition-all cursor-pointer"
                   >
                     {loading ? (
                       <>

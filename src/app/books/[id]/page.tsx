@@ -11,11 +11,13 @@ import {
   User,
   FileText,
 } from "lucide-react";
+
 import { Book } from "@/components/common/BookCard";
-import BorrowButton from "@/components/BorrowButton";
+
 import Image from "next/image";
 import EditBookDialog from "@/components/EditBookDialog";
 import DeleteBookDailog from "@/components/DeleteBookDailog";
+import PopoverBtn from "@/components/button/PopoverBtn";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -163,9 +165,7 @@ const BookdetailsPage = async ({
             </div>
 
             {/* ACTION BUTTON */}
-            <div className="pt-4 border-t border-stone-800/80">
-              <BorrowButton bookName={book.bookName} />
-            </div>
+            <PopoverBtn book={book}></PopoverBtn>
           </div>
         </div>
       </div>

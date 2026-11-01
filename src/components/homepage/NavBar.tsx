@@ -89,7 +89,12 @@ export default function NavBar() {
                 ></PopoverTrigger>
                 <PopoverContent>
                   <PopoverHeader>
-                    <PopoverTitle>{user?.name}</PopoverTitle>
+                    <PopoverTitle>
+                      <div>
+                        <p className="font-bold text-2xl">My Profile</p>
+                        Name: {user?.name}
+                      </div>
+                    </PopoverTitle>
                     <PopoverDescription>
                       <div>
                         <p>{user?.email}</p>
