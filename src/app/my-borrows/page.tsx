@@ -5,8 +5,6 @@ import Link from "next/link";
 import { BookOpen, Calendar, ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getTokenFromServer } from "@/lib/getTokenFromServer";
-import ReturnBookButton from "@/components/button/ReturnBookButton";
-
 interface BorrowedBook {
   _id: string;
   bookId?: string;

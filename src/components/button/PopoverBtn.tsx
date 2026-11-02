@@ -44,11 +44,12 @@ const PopoverBtn = ({ book, isAlreadyBorrowed = false }: PopoverBtnProps) => {
     const { _id, ...bookDetails } = book;
 
     const data = {
+      ...bookDetails,
       bookId: _id || book.id,
       userName: user?.name,
       email: user?.email,
       UserImage: user?.image,
-      ...bookDetails,
+
       borrowDate: userBorrowData?.borrowDate,
       borrowingDate: new Date(),
     };
@@ -63,7 +64,7 @@ const PopoverBtn = ({ book, isAlreadyBorrowed = false }: PopoverBtnProps) => {
         },
         body: JSON.stringify(data),
       });
-
+      console.log(res);
       if (res.ok) {
         toast.success(`${bookDetails.bookName} added to your borrow list`);
         router.push("/books");
