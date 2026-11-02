@@ -14,6 +14,7 @@ import {
 import EditBookDialog from "@/components/EditBookDialog";
 import { Book } from "@/components/common/BookCard";
 import DeleteBookDialog from "@/components/DeleteBookDailog";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 const MyBooksPage = async () => {
   const session = await auth.api.getSession({
@@ -42,10 +43,15 @@ const MyBooksPage = async () => {
   }
 
   let myBooks: Book[] = [];
+  // middleWare
+  const token = await getTokenFromServer();
 
   try {
     const res = await fetch(`http://localhost:4000/books/user/${user.email}`, {
       cache: "no-store",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
     if (res.ok) {

@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface DeleteBookDialogProps {
   id: string;
@@ -28,10 +29,15 @@ export default function DeleteBookDialog({ id }: DeleteBookDialogProps) {
 
   const handleDeleteBook = async () => {
     setIsDeleting(true);
+    // middleware
+    const token = await getTokenFromClient();
 
     try {
       const res = await fetch(`http://localhost:4000/books/${id}`, {
         method: "DELETE",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       });
 
       if (res.ok) {

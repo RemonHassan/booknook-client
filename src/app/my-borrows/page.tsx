@@ -4,10 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, Calendar, ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 interface BorrowedBook {
   _id: string;
   bookId?: string;
+  bookName: string;
   title: string;
   coverImage?: string;
   image?: string;
@@ -24,6 +26,8 @@ const MyBorrowPage = async () => {
   const user = session?.user;
 
   let borrowedBooks: BorrowedBook[] = [];
+  // middleWare
+  const token = await getTokenFromServer();
 
   if (user?.email) {
     try {
@@ -31,6 +35,9 @@ const MyBorrowPage = async () => {
         `http://localhost:4000/my-borrowing/${user.email}`,
         {
           cache: "no-store",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         },
       );
 
@@ -130,7 +137,7 @@ const MyBorrowPage = async () => {
                       {/* TITLE */}
                       <td className="py-4 px-6">
                         <p className="font-semibold text-stone-100 text-sm">
-                          {item.title}
+                          {item.bookName}
                         </p>
                         {item.author && (
                           <p className="text-xs text-stone-400 mt-0.5">

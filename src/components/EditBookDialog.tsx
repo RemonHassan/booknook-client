@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Book } from "./common/BookCard";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const categories = [
   "Classic",
@@ -64,6 +65,8 @@ export default function EditBookDialog({ book }: EditBookDialogProps) {
       totalPages: Number(form.totalPages),
       rating: Number(form.rating),
     };
+    // Getting middelware token
+    const token = await getTokenFromClient();
 
     try {
       const bookId = _id || id;
@@ -71,6 +74,7 @@ export default function EditBookDialog({ book }: EditBookDialogProps) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });

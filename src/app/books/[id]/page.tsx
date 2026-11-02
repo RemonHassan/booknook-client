@@ -16,6 +16,10 @@ import { Book } from "@/components/common/BookCard";
 
 import Image from "next/image";
 import PopoverBtn from "@/components/button/PopoverBtn";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { toast } from "react-toastify";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -26,17 +30,19 @@ const BookdetailsPage = async ({
 }: PageProps): Promise<React.JSX.Element> => {
   const { id } = await params;
   let book: Book | null = null;
-
+  const token = await getTokenFromServer();
   try {
     const res = await fetch(`http://localhost:4000/books/${id}`, {
-      cache: "no-store",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
     if (res.ok) {
       book = await res.json();
     }
   } catch (error) {
-    console.error("Failed to fetch book details:", error);
+    toast.error("Failed to fetch books");
   }
 
   if (!book) {

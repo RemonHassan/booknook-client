@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const categories = [
   "Classic",
@@ -52,6 +53,7 @@ export default function AddBookPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const userInfoAndBookData = {
       userName: user?.name,
       email: user?.email,
@@ -59,16 +61,19 @@ export default function AddBookPage() {
       addedDate: new Date(),
       ...form,
     };
+    // gettinf middleware token
+    const token = await getTokenFromClient();
 
     // Calling the API
     const res = await fetch(`http://localhost:4000/add-book`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(userInfoAndBookData),
     });
-    const data = await res.json();
+    const result = await res.json();
 
     if (res.ok) {
       toast.success(`A book was is added`);
