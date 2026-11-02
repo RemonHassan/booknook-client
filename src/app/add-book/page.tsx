@@ -40,6 +40,7 @@ const initialForm = {
   totalPages: "",
   rating: "",
   image: "",
+  quantity: "",
   review: "",
 };
 
@@ -227,6 +228,26 @@ export default function AddBookPage() {
                 onChange={(event) => update("image", event.target.value)}
                 required
                 className="border-stone-800 bg-stone-950 text-stone-100 placeholder:text-stone-600 focus-visible:ring-emerald-500"
+              />
+            </div>
+            {/* add quantity 3333333333333333333333333333*/}
+            <div className="grid gap-2">
+              <Label
+                htmlFor="quantity"
+                className="text-xs font-semibold uppercase tracking-wider text-stone-300"
+              >
+                Total Copies Available
+              </Label>
+              <Input
+                id="quantity"
+                name="quantity"
+                type="number"
+                min="1"
+                value={form.quantity}
+                onChange={(event) => update("quantity", event.target.value)}
+                required
+                placeholder="5"
+                className="rounded-xl border-stone-800 bg-stone-950 text-stone-100 placeholder:text-stone-600 focus-visible:ring-emerald-500"
               />
             </div>
 

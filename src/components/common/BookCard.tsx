@@ -5,6 +5,7 @@ import { Star, BookOpen, Calendar, Building2, User } from "lucide-react";
 export interface Book {
   _id?: string;
   id?: string;
+  bookId?: string;
   bookName: string;
   author: string;
   image: string;
@@ -13,13 +14,24 @@ export interface Book {
   email?: string;
   UserImage?: string;
   review?: string;
-  totalPages: number;
-  rating: number;
+  totalPages: number | string;
+  quantity?: number | string;
+  rating: number | string;
   category: string;
   publisher: string;
-  yearOfPublishing: number;
+  yearOfPublishing: number | string;
 }
 
+export interface BorrowRecord {
+  _id: string;
+  bookId?: string | { $oid: string };
+  email: string;
+  userName?: string;
+  bookName?: string;
+  borrowDate?: string;
+  returnDate?: string;
+  borrowingDate?: string;
+}
 interface BookCardProps {
   book: Book;
 }

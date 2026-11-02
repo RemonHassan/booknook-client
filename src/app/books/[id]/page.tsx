@@ -12,14 +12,13 @@ import {
   FileText,
 } from "lucide-react";
 
-import { Book } from "@/components/common/BookCard";
-
 import Image from "next/image";
 import PopoverBtn from "@/components/button/PopoverBtn";
+
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { toast } from "react-toastify";
-import { getTokenFromServer } from "@/lib/getTokenFromServer";
+import { Book, BorrowRecord } from "@/components/common/BookCard";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -31,6 +30,7 @@ const BookdetailsPage = async ({
   const { id } = await params;
   let book: Book | null = null;
   const token = await getTokenFromServer();
+
   try {
     const res = await fetch(`http://localhost:4000/books/${id}`, {
       headers: {
@@ -42,17 +42,57 @@ const BookdetailsPage = async ({
       book = await res.json();
     }
   } catch (error) {
-    toast.error("Failed to fetch books");
+    console.error("Failed to fetch book details:", error);
   }
 
   if (!book) {
     notFound();
   }
 
+  // Session & Borrow check
+  const session = await auth.api.getSession({ headers: await headers() });
+  const user = session?.user;
+
+  let isAlreadyBorrowed = false;
+
+  if (user?.email) {
+    try {
+      const borrowRes = await fetch(
+        `http://localhost:4000/my-borrowing/${user.email}`,
+        {
+          cache: "no-store",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (borrowRes.ok) {
+        const borrowedList: BorrowRecord[] = await borrowRes.json();
+        const currentBookId = String(book._id || book.id);
+
+        isAlreadyBorrowed = borrowedList.some((item: BorrowRecord) => {
+          const rawId = item.bookId ?? item._id;
+
+          let itemBookId = "";
+          if (typeof rawId === "object" && rawId !== null && "$oid" in rawId) {
+            itemBookId = rawId.$oid;
+          } else if (rawId) {
+            itemBookId = String(rawId);
+          }
+
+          return itemBookId === currentBookId;
+        });
+      }
+    } catch (err) {
+      console.error("Failed to fetch borrow status:", err);
+    }
+  }
+
   return (
     <main className="min-h-screen bg-stone-950 text-stone-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
-        {/* TOP NAVIGATION & ACTIONS BAR */}
+        {/* TOP NAVIGATION */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link
             href="/books"
@@ -65,7 +105,7 @@ const BookdetailsPage = async ({
 
         {/* MAIN DETAILS CARD */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 bg-stone-900 border border-stone-800/80 rounded-2xl p-6 sm:p-8 shadow-2xl">
-          {/* LEFT: COVER IMAGE */}
+          {/* COVER IMAGE */}
           <div className="md:col-span-5 flex flex-col items-center">
             <div className="relative aspect-3/4 w-full max-w-sm rounded-xl overflow-hidden bg-stone-950 border border-stone-800 shadow-xl">
               <Image
@@ -81,10 +121,9 @@ const BookdetailsPage = async ({
             </div>
           </div>
 
-          {/* RIGHT: CONTENT & METADATA */}
+          {/* CONTENT & METADATA */}
           <div className="md:col-span-7 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
-              {/* TITLE & RATING */}
               <div className="flex items-start justify-between gap-4 border-b border-stone-800/80 pb-4">
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-100 leading-tight">
@@ -136,6 +175,24 @@ const BookdetailsPage = async ({
 
                 <div className="space-y-1">
                   <span className="text-stone-500 uppercase font-semibold flex items-center gap-1">
+                    <Hash className="w-3.5 h-3.5 text-emerald-400" />
+                    Available Copies
+                  </span>
+                  <p className="text-stone-200 font-medium">
+                    {Number(book?.quantity ?? 0) > 0 ? (
+                      <span className="text-emerald-400 font-bold">
+                        {book?.quantity} in stock
+                      </span>
+                    ) : (
+                      <span className="text-rose-400 font-bold">
+                        Out of Stock
+                      </span>
+                    )}
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <span className="text-stone-500 uppercase font-semibold flex items-center gap-1">
                     <Tag className="w-3.5 h-3.5 text-emerald-400" />
                     Category
                   </span>
@@ -158,7 +215,7 @@ const BookdetailsPage = async ({
             </div>
 
             {/* ACTION BUTTON */}
-            <PopoverBtn book={book}></PopoverBtn>
+            <PopoverBtn book={book} isAlreadyBorrowed={isAlreadyBorrowed} />
           </div>
         </div>
       </div>

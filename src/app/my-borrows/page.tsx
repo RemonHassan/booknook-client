@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookOpen, Calendar, ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getTokenFromServer } from "@/lib/getTokenFromServer";
+import ReturnBookButton from "@/components/button/ReturnBookButton";
 
 interface BorrowedBook {
   _id: string;
@@ -166,11 +167,12 @@ const MyBorrowPage = async () => {
 
                       {/* RETURN BUTTON */}
                       <td className="py-4 px-6 text-right">
-                        <Button
-                          variant="outline"
-                          className="rounded-xl border-rose-900/40 bg-rose-950/30 px-3.5 py-1.5 text-xs font-semibold text-rose-400 hover:bg-rose-950/60 hover:text-rose-300 hover:border-rose-800/60 transition-all cursor-pointer"
-                        >
-                          Return Book
+                        <Button className="rounded-xl px-3.5 py-1.5 text-xs font-semibold text-rose-400 hover:bg-rose-950/60 hover:text-rose-300 hover:border-rose-800/60 transition-all cursor-pointer">
+                          Return book
+                          {/* <ReturnBookButton
+                            bookId={String(item.bookId || item._id)}
+                            email={user?.email || ""}
+                          /> */}
                         </Button>
                       </td>
                     </tr>
