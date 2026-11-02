@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 BookNook
 
-## Getting Started
+> **A modern, full-stack digital library platform for discovering, managing, and borrowing books.**
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![Express.js](https://img.shields.io/badge/Express.js-4.x-lightgrey?style=flat-square&logo=express)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌐 Live Application
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Client App:** [https://booknook-library.vercel.app](https://booknook-library.vercel.app)
+- **Backend API:** `http://localhost:4000` (Local Express Server)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Features
 
-To learn more about Next.js, take a look at the following resources:
+- **📖 Interactive Book Catalog & Search:** Browse the complete library collection or quickly discover the latest additions using MongoDB's `addedDate` backend sorting for **New Arrivals**.
+- **🔄 Seamless Borrowing Workflow:** Borrow books with real-time state validation, automatically disabling borrow triggers and displaying **"Already Borrowed"** status for active user checkouts.
+- **✍️ Community Contributor Dashboard (`My Added Books`):** Logged-in users can view, manage, edit, and delete their own submitted books using interactive Shadcn dialogs.
+- **📋 Personal Reading Tracker (`My Borrows`):** Clean tabular view displaying image covers, book details, borrow dates, and estimated return schedules for all currently borrowed titles.
+- **🔒 Secure Authentication & Safety:** Custom auth session handling via Next.js App Router headers with robust client and server-side validation to ensure user route privacy.
+- **🎨 Elegant Dark-Stone Aesthetic:** Crafted with Tailwind CSS and Shadcn UI, featuring ambient glow effects, responsive card grids, and fine-tuned UI components.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## Deploy on Vercel
+| Layer              | Technology                                                         |
+| :----------------- | :----------------------------------------------------------------- |
+| **Frontend**       | Next.js (App Router), React, Tailwind CSS, Shadcn UI, Lucide Icons |
+| **Backend**        | Node.js, Express.js, CORS                                          |
+| **Database**       | MongoDB                                                            |
+| **Authentication** | Custom Next.js Auth API                                            |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Getting Started
+
+### 1. Prerequisites
+
+Ensure you have **Node.js** (v18+) and **MongoDB** configured.
+
+### 2. Installation & Setup
+
+#### Frontend Setup

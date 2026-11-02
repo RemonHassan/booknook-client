@@ -15,8 +15,6 @@ import {
 import { Book } from "@/components/common/BookCard";
 
 import Image from "next/image";
-import EditBookDialog from "@/components/EditBookDialog";
-import DeleteBookDailog from "@/components/DeleteBookDailog";
 import PopoverBtn from "@/components/button/PopoverBtn";
 
 interface PageProps {
@@ -57,17 +55,6 @@ const BookdetailsPage = async ({
             <ArrowLeft className="w-4 h-4 text-emerald-400" />
             <span>Back to All Books</span>
           </Link>
-
-          {/* EDIT & DELETE ACTION BUTTONS */}
-          <div className="flex items-center gap-3">
-            <p>
-              <EditBookDialog book={book}></EditBookDialog>
-            </p>
-
-            <p>
-              <DeleteBookDailog id={id}></DeleteBookDailog>
-            </p>
-          </div>
         </div>
 
         {/* MAIN DETAILS CARD */}
