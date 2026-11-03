@@ -70,14 +70,17 @@ export default function EditBookDialog({ book }: EditBookDialogProps) {
 
     try {
       const bookId = _id || id;
-      const res = await fetch(`http://localhost:4000/books/${bookId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/books/${bookId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       if (res.ok) {
         toast.success("Book updated successfully!");

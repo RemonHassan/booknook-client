@@ -32,7 +32,7 @@ const BookdetailsPage = async ({
   const token = await getTokenFromServer();
 
   try {
-    const res = await fetch(`http://localhost:4000/books/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books/${id}`, {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -58,7 +58,7 @@ const BookdetailsPage = async ({
   if (user?.email) {
     try {
       const borrowRes = await fetch(
-        `http://localhost:4000/my-borrowing/${user.email}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/my-borrowing/${user.email}`,
         {
           cache: "no-store",
           headers: {

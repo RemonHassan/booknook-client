@@ -56,7 +56,7 @@ const PopoverBtn = ({ book, isAlreadyBorrowed = false }: PopoverBtnProps) => {
 
     try {
       const token = await getTokenFromClient();
-      const res = await fetch(`http://localhost:4000/borrowing`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/borrowing`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

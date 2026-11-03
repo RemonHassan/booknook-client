@@ -33,12 +33,15 @@ export default function DeleteBookDialog({ id }: DeleteBookDialogProps) {
     const token = await getTokenFromClient();
 
     try {
-      const res = await fetch(`http://localhost:4000/books/${id}`, {
-        method: "DELETE",
-        headers: {
-          authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/books/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (res.ok) {
         toast.success("Book deleted successfully!");

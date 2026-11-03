@@ -9,7 +9,7 @@ export default async function Banner() {
   let books: Book[] = [];
 
   try {
-    const res = await fetch(`http://localhost:4000/books`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books`, {
       cache: "no-store",
     });
 
@@ -23,7 +23,7 @@ export default async function Banner() {
   // New Arrivals (Latest 6 books from database)
   let newArrivals: Book[] = [];
   try {
-    const res = await fetch(`http://localhost:4000/books`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books`, {
       cache: "no-store",
     });
 

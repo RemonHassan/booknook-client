@@ -31,7 +31,7 @@ const MyBorrowPage = async () => {
   if (user?.email) {
     try {
       const res = await fetch(
-        `http://localhost:4000/my-borrowing/${user.email}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/my-borrowing/${user.email}`,
         {
           cache: "no-store",
           headers: {

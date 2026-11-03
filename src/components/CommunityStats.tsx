@@ -13,9 +13,7 @@ export default async function CommunityStats() {
   let books: Book[] = [];
 
   try {
-    const res = await fetch(`http://localhost:4000/books`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books`);
 
     if (res.ok) {
       books = await res.json();

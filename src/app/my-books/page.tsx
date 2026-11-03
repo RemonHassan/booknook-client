@@ -47,12 +47,15 @@ const MyBooksPage = async () => {
   const token = await getTokenFromServer();
 
   try {
-    const res = await fetch(`http://localhost:4000/books/user/${user.email}`, {
-      cache: "no-store",
-      headers: {
-        authorization: `Bearer ${token}`,
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/books/user/${user.email}`,
+      {
+        cache: "no-store",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     if (res.ok) {
       myBooks = await res.json();

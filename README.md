@@ -11,8 +11,8 @@
 
 ## 🌐 Live Application
 
-- **Client App:** [https://booknook-library.vercel.app](https://booknook-library.vercel.app)
-- **Backend API:** `http://localhost:4000` (Local Express Server)
+- **Client App:** [https://booknook-frontend-one.vercel.app/](https://booknook-frontend-one.vercel.app/)
+- **Backend API:** `https://booknook-server-beta-five.vercel.app/` (Local Express Server)
 
 ---
 
